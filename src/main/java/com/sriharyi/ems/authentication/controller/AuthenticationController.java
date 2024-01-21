@@ -1,7 +1,7 @@
 package com.sriharyi.ems.authentication.controller;
 
-import com.sriharyi.ems.authentication.dto.LoginRequest;
-import com.sriharyi.ems.authentication.dto.LoginResponse;
+import com.sriharyi.ems.authentication.dto.AuthenticateRequest;
+import com.sriharyi.ems.authentication.dto.AuthenticateResponse;
 import com.sriharyi.ems.authentication.dto.RegisterRequest;
 import com.sriharyi.ems.authentication.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthenticateResponse> register(@RequestBody RegisterRequest request) {
 
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthenticateResponse> authenticate(@RequestBody AuthenticateRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }
