@@ -19,7 +19,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer departmentId;
 
-    @Column(name = "department_name", length = 30, nullable = false)
+    @Column(name = "department_name", unique = true, length = 30, nullable = false)
     private String departmentName;
 
     @Column(name = "current_manager_id")

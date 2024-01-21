@@ -42,6 +42,9 @@ public class Employee {
     @Column(name = "role", length = 30, nullable = false)
     private String role;
 
+    @Column(name = "job_title", length = 254 , nullable = false)
+    private String jobTitle;
+
     @Column(name = "base_salary", nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double baseSalary;
 

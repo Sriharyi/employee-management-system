@@ -36,10 +36,8 @@ public class Salary {
     @Column(name = "net_salary", nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double netSalary;
 
-
     @Column(name = "pay_frequency", nullable = false, columnDefinition = "VARCHAR(10)")
     private String payFrequency;
-
 
     @Column(name = "pay_year", columnDefinition = "INT")
     private Integer payYear;

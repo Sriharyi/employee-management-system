@@ -27,7 +27,7 @@ public class ManagerHistory {
     @Column(name = "start_date", nullable = false, columnDefinition = "DATE")
     private Date startDate;
 
-    @Column(name = "end_date", nullable = false, columnDefinition = "DATE")
+    @Column(name = "end_date", nullable = true, columnDefinition = "DATE")
     private Date endDate;
 
 

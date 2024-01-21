@@ -22,7 +22,7 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer positionId;
 
-    @Column(name = "job_title")
+    @Column(name = "job_title" ,unique = true, nullable = false)
     private String jobTitle;
 
     @Column(name = "min_salary", nullable = false, columnDefinition = "DECIMAL(10,2)")
