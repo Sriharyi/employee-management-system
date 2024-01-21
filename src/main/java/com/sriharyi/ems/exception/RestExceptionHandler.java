@@ -8,8 +8,34 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice // This annotation is used to handle exceptions globally
 public class RestExceptionHandler {
     @ExceptionHandler(value = EmailAlreadyExistsException.class)
-    public ResponseEntity<?> handleEmailAlreadyExistsException(){
+    public ResponseEntity<?> handleEmailAlreadyExistsException() {
         return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
 
     }
+
+    @ExceptionHandler(value = DepartmentNotFoundException.class)
+    public ResponseEntity<?> handleDepartmentNotFoundException() {
+        return new ResponseEntity<>("Department not found", HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(value = EmployeeNotFoundException.class)
+    public ResponseEntity<?> handleEmployeeNotFoundException() {
+        return new ResponseEntity<>("Employee not found", HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(value = PositionNotFoundException.class)
+    public ResponseEntity<?> handlePositionNotFoundException() {
+        return new ResponseEntity<>("Position not found", HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(value = SalaryNotFoundException.class)
+    public ResponseEntity<?> handleSalaryNotFoundException() {
+        return new ResponseEntity<>("Salary not found", HttpStatus.NOT_FOUND);
+
+    }
+
+
 }
