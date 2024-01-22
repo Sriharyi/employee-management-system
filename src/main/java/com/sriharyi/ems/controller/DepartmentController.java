@@ -24,13 +24,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/listAll")
-    // @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<List<DepartmentDto>> listAllDepartments() {
         return ResponseEntity.ok(departmentService.listAllDepartments());
     }
 
     @PutMapping("/update")
-    // @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> updateDepartment(@RequestBody DepartmentDto departmentDto) {
         return ResponseEntity.ok(departmentService.updateDepartment(departmentDto));
     }
@@ -47,13 +47,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/get")
-    // @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> getDepartmentByName(@RequestParam String departmentName) {
         return ResponseEntity.ok(departmentService.getDepartmentByName(departmentName));
     }
 
     @GetMapping("/getById")
-    // @PreAuthorize("hasRole('ROLE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> getDepartmentById(@RequestParam Integer id) {
         return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }

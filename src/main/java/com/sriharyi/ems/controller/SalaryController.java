@@ -42,6 +42,7 @@ public class SalaryController {
     }
 
     @GetMapping("/getById")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<SalaryDto> getSalaryById(@RequestBody Integer id) {
         return ResponseEntity.ok(salaryService.getSalaryById(id));
     }

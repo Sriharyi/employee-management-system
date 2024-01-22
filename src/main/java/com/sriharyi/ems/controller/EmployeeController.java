@@ -38,12 +38,6 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.updateEmployee(employeeDto));
     }
 
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<?> deleteEmployee(@RequestParam Integer id) {
-        employeeService.deleteEmployeeById(id);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteEmployee(@RequestParam String email) {
         employeeService.deleteEmployeeByEmail(email);
@@ -51,7 +45,6 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<EmployeeDto> getEmployee(@RequestParam String email) {
         return ResponseEntity.ok(employeeService.getEmployeeByEmail(email));
     }
