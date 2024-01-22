@@ -3,6 +3,7 @@ package com.sriharyi.ems.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/position")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 public class PositionController {
 
     private final PositionService positionService;

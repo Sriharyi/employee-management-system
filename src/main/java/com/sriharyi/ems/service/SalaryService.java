@@ -1,9 +1,8 @@
 package com.sriharyi.ems.service;
 
-import com.sriharyi.ems.dto.SalaryDto;
-import com.sriharyi.ems.entity.Salary;
-
 import java.util.List;
+
+import com.sriharyi.ems.dto.SalaryDto;
 
 public interface SalaryService {
 

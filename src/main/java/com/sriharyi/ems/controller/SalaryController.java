@@ -3,6 +3,7 @@ package com.sriharyi.ems.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/salary")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 public class SalaryController {
 
     private final SalaryService salaryService;
@@ -45,6 +47,7 @@ public class SalaryController {
     }
 
     @GetMapping("/getByEmployeeId")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<List<SalaryDto>> getSalaryByEmployeeId(@RequestBody Integer id) {
         return ResponseEntity.ok(salaryService.getSalaryByEmployeeId(id));
     }

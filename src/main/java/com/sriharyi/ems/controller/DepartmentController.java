@@ -4,6 +4,7 @@ import com.sriharyi.ems.dto.DepartmentDto;
 import com.sriharyi.ems.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/department")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -22,11 +24,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/listAll")
+    // @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<List<DepartmentDto>> listAllDepartments() {
         return ResponseEntity.ok(departmentService.listAllDepartments());
     }
 
     @PutMapping("/update")
+    // @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> updateDepartment(@RequestBody DepartmentDto departmentDto) {
         return ResponseEntity.ok(departmentService.updateDepartment(departmentDto));
     }
@@ -43,11 +47,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/get")
+    // @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> getDepartmentByName(@RequestParam String departmentName) {
         return ResponseEntity.ok(departmentService.getDepartmentByName(departmentName));
     }
 
     @GetMapping("/getById")
+    // @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> getDepartmentById(@RequestParam Integer id) {
         return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }
