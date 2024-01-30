@@ -23,7 +23,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/listAllWithDepartment")
-    public ResponseEntity<List<EmployeeDto>> listAllEmployeesWithDepartment(@RequestParam String departmentName) {
+    public ResponseEntity<List<EmployeeDto>> listAllEmployeesWithDepartment(@RequestBody String departmentName) {
         return ResponseEntity.ok(employeeService.listAllEmployeesWithDepartment(departmentName));
     }
 
@@ -39,7 +39,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteEmployee(@RequestParam String email) {
+    public ResponseEntity<?> deleteEmployee(@RequestBody String email) {
         employeeService.deleteEmployeeByEmail(email);
         return ResponseEntity.ok().build();
     }

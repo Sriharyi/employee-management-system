@@ -1,21 +1,13 @@
 package com.sriharyi.ems.controller;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.sriharyi.ems.dto.SalaryDto;
 import com.sriharyi.ems.service.SalaryService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/salary")
@@ -23,7 +15,12 @@ import lombok.RequiredArgsConstructor;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
 public class SalaryController {
 
-    private final SalaryService salaryService;
+    private  final SalaryService salaryService;
+
+    @GetMapping("/listAll")
+    public ResponseEntity<List<SalaryDto>> getAllSalaries() {
+        return ResponseEntity.ok(salaryService.getAllSalaries());
+    }
 
     @PostMapping("/add")
     public ResponseEntity<SalaryDto> addSalary(@RequestBody SalaryDto salaryDto) {
@@ -42,7 +39,6 @@ public class SalaryController {
     }
 
     @GetMapping("/getById")
-    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<SalaryDto> getSalaryById(@RequestBody Integer id) {
         return ResponseEntity.ok(salaryService.getSalaryById(id));
     }
@@ -51,11 +47,6 @@ public class SalaryController {
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<List<SalaryDto>> getSalaryByEmployeeId(@RequestBody Integer id) {
         return ResponseEntity.ok(salaryService.getSalaryByEmployeeId(id));
-    }
-
-    @GetMapping("/getAllSalaries")
-    public ResponseEntity<List<SalaryDto>> getAllSalaries() {
-        return ResponseEntity.ok(salaryService.getAllSalaries());
     }
 
 }

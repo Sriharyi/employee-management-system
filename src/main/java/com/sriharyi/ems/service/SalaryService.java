@@ -1,8 +1,8 @@
 package com.sriharyi.ems.service;
 
-import java.util.List;
-
 import com.sriharyi.ems.dto.SalaryDto;
+
+import java.util.List;
 
 public interface SalaryService {
 
@@ -16,6 +16,4 @@ public interface SalaryService {
 
     void deleteSalary(Integer id);
 
-    // List<Salary> getSalariesByEmployeeIdAndDateRange(Integer id, String
-    // startDate, String endDate);
 }
