@@ -1,16 +1,15 @@
 package com.sriharyi.ems.service.implementation;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.sriharyi.ems.entity.Employee;
 import com.sriharyi.ems.entity.JobHistory;
 import com.sriharyi.ems.entity.Position;
 import com.sriharyi.ems.repository.JobHistoryRepository;
 import com.sriharyi.ems.service.JobHistoryService;
-
+import com.sriharyi.ems.service.PositionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class JobHistoryServiceImpl implements JobHistoryService {
 
     private final JobHistoryRepository jobHistoryRepository;
 
-    private final PositionServiceImpl positionService;
+    private final PositionService positionService;
 
     @Override
     public List<JobHistory> getAllJobHistories() {

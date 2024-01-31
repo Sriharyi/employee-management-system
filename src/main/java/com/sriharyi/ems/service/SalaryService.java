@@ -1,8 +1,8 @@
 package com.sriharyi.ems.service;
 
-import com.sriharyi.ems.dto.SalaryDto;
-
 import java.util.List;
+
+import com.sriharyi.ems.dto.SalaryDto;
 
 public interface SalaryService {
 
@@ -15,5 +15,9 @@ public interface SalaryService {
     SalaryDto saveSalary(SalaryDto salary);
 
     void deleteSalary(Integer id);
+
+    List<SalaryDto> getSalaryByPayDateBetween(String startDate, String endDate);
+
+    List<SalaryDto> getSalariesForEmployeeByPayDateBetween(Integer employeeId, String startDate,String endDate);
 
 }

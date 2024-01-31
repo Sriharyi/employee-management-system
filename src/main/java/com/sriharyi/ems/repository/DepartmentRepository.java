@@ -1,17 +1,14 @@
 package com.sriharyi.ems.repository;
 
+import com.sriharyi.ems.entity.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.sriharyi.ems.entity.Department;
+import java.util.Optional;
 
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 
     void deleteByDepartmentName(String departmentName);
 
-    Department findByDepartmentName(String departmentName);
-
-
-
-
+    Optional<Department> findByDepartmentName(String departmentName);
 }

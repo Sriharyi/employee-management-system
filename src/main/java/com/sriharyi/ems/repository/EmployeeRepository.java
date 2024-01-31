@@ -1,13 +1,11 @@
 package com.sriharyi.ems.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.sriharyi.ems.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.sriharyi.ems.entity.Department;
-import com.sriharyi.ems.entity.Employee;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -20,9 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     void deleteByEmail(String email);   
     
-    //list all employees by department name
-    List<Employee> findByDepartment(Department department);
-
-    //list all salaries by employee
+    //list all employees by department id
+    List<Employee> findByDepartmentDepartmentId(Integer departmentId);
 
 }

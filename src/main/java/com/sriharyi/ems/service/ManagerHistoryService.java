@@ -6,6 +6,7 @@ import com.sriharyi.ems.entity.Employee;
 import com.sriharyi.ems.entity.ManagerHistory;
 
 public interface ManagerHistoryService {
+
     List<ManagerHistory> getAllManagerHistories();
 
     ManagerHistory getManagerHistoryById(Integer id);
@@ -13,4 +14,5 @@ public interface ManagerHistoryService {
     void addManagerHistory(Employee employee);
 
     void deleteManagerHistory(Integer id);
+    
 }

@@ -17,7 +17,6 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-
     @PostMapping("/add")
     public ResponseEntity<DepartmentDto> addDepartment(@RequestBody DepartmentDto departmentDto) {
         return ResponseEntity.ok(departmentService.addDepartment(departmentDto));
@@ -35,18 +34,13 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentService.updateDepartment(departmentDto));
     }
 
-    //Patch mapping to update onlt the current manager id from department
-    @PatchMapping("/update")
-    public ResponseEntity<DepartmentDto> updateDepartment(@RequestParam Integer id, @RequestParam Integer managerId) {
-        return ResponseEntity.ok(departmentService.updateDepartment(id, managerId));
-    }
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteDepartment(@RequestParam String departmentName) {
+    public ResponseEntity<?> deleteDepartment(@PathVariable String departmentName) {
         departmentService.deleteDepartment(departmentName);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/get")
+    @GetMapping("/getByName")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<DepartmentDto> getDepartmentByName(@RequestParam String departmentName) {
         return ResponseEntity.ok(departmentService.getDepartmentByName(departmentName));

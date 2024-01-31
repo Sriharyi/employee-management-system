@@ -1,14 +1,15 @@
 package com.sriharyi.ems.service;
 
-import java.util.List;
-
 import com.sriharyi.ems.dto.EmployeeDto;
 import com.sriharyi.ems.entity.Employee;
 
+import java.util.List;
+
 public interface EmployeeService {
+
     List<EmployeeDto> listAllEmployees();
 
-    List<EmployeeDto> listAllEmployeesWithDepartment(String departmentName);
+    List<EmployeeDto> listAllEmployeesWithDepartmentId(Integer departmentId);
 
     EmployeeDto addEmployee(EmployeeDto employeeDto);
 
@@ -23,4 +24,5 @@ public interface EmployeeService {
     EmployeeDto getEmployeeById(Integer id);
 
     Employee getEmployeeEntityById(Integer id);
+    
 }

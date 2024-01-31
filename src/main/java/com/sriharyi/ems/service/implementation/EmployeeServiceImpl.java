@@ -10,6 +10,8 @@ import com.sriharyi.ems.exception.EmployeeNotFoundException;
 import com.sriharyi.ems.repository.DepartmentRepository;
 import com.sriharyi.ems.repository.EmployeeRepository;
 import com.sriharyi.ems.service.EmployeeService;
+import com.sriharyi.ems.service.JobHistoryService;
+import com.sriharyi.ems.service.ManagerHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    private final JobHistoryServiceImpl jobHistoryService;
+    private final JobHistoryService jobHistoryService;
 
-    private final ManagerHistoryServiceImpl managerHistoryService;
+    private final ManagerHistoryService managerHistoryService;
 
     private final DepartmentRepository departmentRepo;
 
@@ -40,9 +42,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> listAllEmployeesWithDepartment(String departmentName) {
-        Department department = departmentRepo.findByDepartmentName(departmentName);
-        return employeeRepository.findByDepartment(department).stream()
+    public List<EmployeeDto> listAllEmployeesWithDepartmentId(Integer departmentId) {
+        return employeeRepository.findByDepartmentDepartmentId(departmentId).stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -57,9 +58,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setHireDate(new Date());
         }
 
-
-        //add employee to the usertable to access the application
-       RegisterRequest request = RegisterRequest.builder()
+        // add employee to the usertable to access the application
+        RegisterRequest request = RegisterRequest.builder()
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .email(employee.getEmail())
@@ -70,14 +70,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
         AuthenticateResponse response = authenticationService.register(request);
 
-
-        //if role is manager then add manager record in managerHistory table
+        // if role is manager then add manager record in managerHistory table
         if (employee.getRole().equalsIgnoreCase("MANAGER")) {
             managerHistoryService.addManagerHistory(employee);
         }
-        
 
-        //save hostory record for employee in job_history table
+        // save hostory record for employee in job_history table
         jobHistoryService.addJobHistory(employee);
 
         return convertToDto(savedEmployee);
@@ -86,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateEmployee(EmployeeDto employeeDto) {
         Employee employee = convertToEntity(employeeDto);
-        if (employee.getEmployeeId() == null || !employeeRepository.existsById(employee.getEmployeeId())) {
+        if (employeeDto == null || employee == null) {
             throw new EmployeeNotFoundException("Employee not found");
         }
         Employee updatedEmployee = employeeRepository.save(employee);
@@ -95,12 +93,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployeeById(Integer id) {
-        employeeRepository.deleteById(id);
+        if (id != null) {
+            employeeRepository.deleteById(id);
+        } else {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
     }
 
     @Override
     public void deleteEmployeeByEmail(String email) {
-        employeeRepository.deleteByEmail(email);
+        if (email != null) {
+            employeeRepository.deleteByEmail(email);
+        } else {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
     }
 
     @Override
@@ -111,21 +117,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Integer id) {
+        if (id == null) {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
         Employee employee = employeeRepository.findById(id).orElse(null);
         return convertToDto(employee);
     }
 
-
-
     @Override
     public Employee getEmployeeEntityById(Integer id) {
+        if (id == null) {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
         return employeeRepository.findById(id).orElse(null);
     }
 
     private EmployeeDto convertToDto(Employee employee) {
-
-        // Position position =
-        // jobHistoryRepository.findByEmployee_EmployeeIdAndEndDateIsNull(employee.getEmployeeId()).getPosition();
 
         return EmployeeDto.builder()
                 .employeeId(employee.getEmployeeId())
@@ -144,7 +151,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee convertToEntity(EmployeeDto employeeDto) {
 
-        Department department = departmentRepo.findByDepartmentName(employeeDto.getDepartmentName());
+        Department department = departmentRepo.findByDepartmentName(employeeDto.getDepartmentName()).orElse(null);
 
         return Employee.builder()
                 .employeeId(employeeDto.getEmployeeId())

@@ -8,7 +8,4 @@ import com.sriharyi.ems.entity.Position;
 public interface PositionRepository extends JpaRepository<Position,Integer> {
 
     Position findByJobTitle(String jobTitle);
-
-    
-
 }

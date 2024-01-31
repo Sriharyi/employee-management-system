@@ -28,7 +28,8 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public PositionDto getPositionById(Integer id) {
-        return convertToDto(positionRepository.findById(id).orElseThrow(()-> new PositionNotFoundException("Position not found")));
+        return convertToDto(
+                positionRepository.findById(id).orElseThrow(() -> new PositionNotFoundException("Position not found")));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class PositionServiceImpl implements PositionService {
         return positionRepository.findByJobTitle(string);
     }
 
-    private Position convertToEntity(PositionDto positionDto){
+    private Position convertToEntity(PositionDto positionDto) {
         return Position.builder()
                 .positionId(positionDto.getPositionId())
                 .jobTitle(positionDto.getJobTitle())
@@ -55,7 +56,7 @@ public class PositionServiceImpl implements PositionService {
                 .build();
     }
 
-    private PositionDto convertToDto(Position position){
+    private PositionDto convertToDto(Position position) {
         return PositionDto.builder()
                 .positionId(position.getPositionId())
                 .jobTitle(position.getJobTitle())

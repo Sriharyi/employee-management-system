@@ -4,13 +4,16 @@ import com.sriharyi.ems.dto.SalaryDto;
 import com.sriharyi.ems.entity.Employee;
 import com.sriharyi.ems.entity.Salary;
 import com.sriharyi.ems.exception.SalaryNotFoundException;
+import com.sriharyi.ems.repository.EmployeeRepository;
 import com.sriharyi.ems.repository.SalaryRepository;
 import com.sriharyi.ems.service.EmployeeService;
 import com.sriharyi.ems.service.SalaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +23,8 @@ public class SalaryServiceImpl implements SalaryService {
     private final SalaryRepository salaryRepository;
 
     private final EmployeeService employeeService;
+
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<SalaryDto> getAllSalaries() {
@@ -39,16 +44,36 @@ public class SalaryServiceImpl implements SalaryService {
         salaryRepository.deleteById(id);
     }
 
-
-
     @Override
     public SalaryDto getSalaryById(Integer id) {
-        return convertToDto(salaryRepository.findById(id).orElseThrow(() -> new SalaryNotFoundException("Salary not found")));
+        return convertToDto(
+                salaryRepository.findById(id).orElseThrow(() -> new SalaryNotFoundException("Salary not found")));
     }
 
     @Override
     public List<SalaryDto> getSalaryByEmployeeId(Integer id) {
         return employeeService.getEmployeeEntityById(id).getSalaries().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SalaryDto> getSalaryByPayDateBetween(String startDate, String endDate) {
+        return salaryRepository
+                .findByPayDateBetween(java.time.LocalDate.parse(startDate), java.time.LocalDate.parse(endDate)).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SalaryDto> getSalariesForEmployeeByPayDateBetween(Integer employeeId, String startDate,
+            String endDate) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new SalaryNotFoundException("Employee not found"));
+        return salaryRepository
+                .findByEmployeeAndPayDateBetween(employee, java.time.LocalDate.parse(startDate),
+                        java.time.LocalDate.parse(endDate))
+                .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -81,7 +106,5 @@ public class SalaryServiceImpl implements SalaryService {
                 .netSalary(salary.getNetSalary())
                 .build();
     }
-
-
 
 }

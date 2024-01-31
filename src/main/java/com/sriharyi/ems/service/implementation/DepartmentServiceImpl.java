@@ -58,7 +58,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto getDepartmentByName(String departmentName) {
-        Department department = departmentRepository.findByDepartmentName(departmentName);
+        Department department = departmentRepository.findByDepartmentName(departmentName)
+                .orElseThrow(() -> new DepartmentNotFoundException("Department not found"));
         return convertToDto(department);
     }
 
