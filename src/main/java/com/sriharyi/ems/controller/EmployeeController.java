@@ -32,8 +32,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto employeeDto) {
-        return ResponseEntity.ok(employeeService.addEmployee(employeeDto));
+    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody EmployeeDto employeeDto,@RequestParam int managerId) {
+        return ResponseEntity.ok(employeeService.addEmployee(employeeDto,managerId));
     }
 
     @PutMapping("/update")

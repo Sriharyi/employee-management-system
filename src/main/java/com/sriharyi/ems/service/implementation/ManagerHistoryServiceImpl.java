@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.sriharyi.ems.entity.Employee;
 import com.sriharyi.ems.entity.ManagerHistory;
+import com.sriharyi.ems.exception.ManagerHistoryNotFoundException;
 import com.sriharyi.ems.repository.ManagerHistoryRepository;
 import com.sriharyi.ems.service.ManagerHistoryService;
 
@@ -38,8 +39,20 @@ public class ManagerHistoryServiceImpl implements ManagerHistoryService {
                 .employee(employee)
                 .startDate(employee.getHireDate())
                 .endDate(null)
+                .EmployeeAdditionCount(0)
                 .build();
         managerHistoryRepository.save(record);
     }
+
+    @Override
+    public void updateManagerHistory(Employee employee) {
+        ManagerHistory record = ManagerHistory.builder()
+                .employee(employee)
+                .startDate(employee.getHireDate())
+                .endDate(null)
+                .build();
+        managerHistoryRepository.save(record);
+    }
+
 
 }

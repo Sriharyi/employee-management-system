@@ -9,6 +9,7 @@ import com.sriharyi.ems.service.PositionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +33,34 @@ public class JobHistoryServiceImpl implements JobHistoryService {
     @Override
     public void deleteJobHistory(Integer id) {
         jobHistoryRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateJobHistory(Employee savedEmployee) {
+        Position position = positionService.getByPositionName(savedEmployee.getJobTitle());
+        JobHistory record = JobHistory.builder()
+                .employee(savedEmployee)
+                .startDate(savedEmployee.getHireDate())
+                .endDate(null)
+                .position(position)
+                .build();
+        List<JobHistory> histories = jobHistoryRepository.findByEmployee(savedEmployee);
+        if(histories.isEmpty())
+        {
+            jobHistoryRepository.save(record);
+        }else
+        {
+            for(JobHistory his:histories)
+            {
+                if(his.getEndDate()==null)
+                {
+                    his.setEndDate(new Date());
+                    jobHistoryRepository.save(his);
+                    break;
+                }
+            }
+            jobHistoryRepository.save(record);
+        }
     }
 
     @Override

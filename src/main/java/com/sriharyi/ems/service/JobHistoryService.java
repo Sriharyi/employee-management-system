@@ -14,4 +14,6 @@ public interface JobHistoryService {
     void deleteJobHistory(Integer id);
 
     void addJobHistory(Employee savedEmployee);
+
+    void updateJobHistory(Employee savedEmployee);
 }

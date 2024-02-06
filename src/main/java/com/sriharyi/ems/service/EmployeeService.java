@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     List<EmployeeDto> listAllEmployeesWithDepartmentId(Integer departmentId);
 
-    EmployeeDto addEmployee(EmployeeDto employeeDto);
+    EmployeeDto addEmployee(EmployeeDto employeeDto, Integer managerId);
 
     EmployeeDto updateEmployee(EmployeeDto employeeDto);
 

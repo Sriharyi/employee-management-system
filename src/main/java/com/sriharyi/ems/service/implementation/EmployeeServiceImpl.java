@@ -12,9 +12,12 @@ import com.sriharyi.ems.authentication.service.AuthenticationService;
 import com.sriharyi.ems.dto.EmployeeDto;
 import com.sriharyi.ems.entity.Department;
 import com.sriharyi.ems.entity.Employee;
+import com.sriharyi.ems.entity.ManagerHistory;
 import com.sriharyi.ems.exception.EmployeeNotFoundException;
+import com.sriharyi.ems.exception.ManagerExeedEmployeeAdditionLimitException;
 import com.sriharyi.ems.repository.DepartmentRepository;
 import com.sriharyi.ems.repository.EmployeeRepository;
+import com.sriharyi.ems.repository.ManagerHistoryRepository;
 import com.sriharyi.ems.service.EmployeeService;
 import com.sriharyi.ems.service.JobHistoryService;
 import com.sriharyi.ems.service.ManagerHistoryService;
@@ -35,6 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final AuthenticationService authenticationService;
 
+    private final ManagerHistoryRepository managerHistoryRepository;
+
     @Override
     public List<EmployeeDto> listAllEmployees() {
         return employeeRepository.findAll().stream()
@@ -50,13 +55,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto addEmployee(EmployeeDto employeeDto) {
+    public EmployeeDto addEmployee(EmployeeDto employeeDto, Integer managerId) {
         Employee employee = convertToEntity(employeeDto);
         if (employeeDto == null) {
             throw new EmployeeNotFoundException("Employee not found");
         }
         if (employee.getHireDate() == null) {
             employee.setHireDate(new Date());
+        }
+
+        // before we add the employee we check whether the employee can be added by
+        // manager or not
+        if (employee.getRole().equalsIgnoreCase("EMPLOYEE")) {
+            if (managerId != null) {
+                ManagerHistory manager = managerHistoryRepository.findById(managerId).orElse(null);
+                if (manager != null) {
+                    if (manager.getEmployeeAdditionCount() >= 5) {
+                        throw new ManagerExeedEmployeeAdditionLimitException(
+                                "Manager has exceeded the limit of adding employees");
+                    } else {
+                        // update the manager EmployeeAdditionCount
+                        manager.setEmployeeAdditionCount(manager.getEmployeeAdditionCount() + 1);
+                        managerHistoryRepository.save(manager);
+                    }
+                }
+            }
         }
 
         // add employee to the usertable to access the application
@@ -89,6 +112,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException("Employee not found");
         }
         Employee updatedEmployee = employeeRepository.save(employee);
+
+        // if role is manager then add manager record in managerHistory table
+        if (updatedEmployee.getRole().equalsIgnoreCase("MANAGER")) {
+            managerHistoryService.addManagerHistory(updatedEmployee);
+        }
+
+        // save hostory record for employee in job_history table
+        jobHistoryService.addJobHistory(updatedEmployee);
+
         return convertToDto(updatedEmployee);
     }
 

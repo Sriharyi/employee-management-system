@@ -14,5 +14,7 @@ public interface ManagerHistoryService {
     void addManagerHistory(Employee employee);
 
     void deleteManagerHistory(Integer id);
+
+    void updateManagerHistory(Employee employee);
     
 }

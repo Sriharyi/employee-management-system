@@ -37,4 +37,14 @@ public class RestExceptionHandler {
 
     }
 
+    @ExceptionHandler(value = ManagerHistoryNotFoundException.class)
+    public ResponseEntity<?> handleManagerHistoryNotFoundException() {
+        return new ResponseEntity<>("Manager history not found", HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(value = ManagerExeedEmployeeAdditionLimitException.class)
+    public ResponseEntity<?> handleManagerExeedEmployeeAdditionLimitException() {
+        return new ResponseEntity<>("Manager exceeded employee addition limit", HttpStatus.BAD_REQUEST);
+    }
 }

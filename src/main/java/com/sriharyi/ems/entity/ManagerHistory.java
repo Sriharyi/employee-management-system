@@ -30,5 +30,6 @@ public class ManagerHistory {
     @Column(name = "end_date", nullable = true, columnDefinition = "DATE")
     private Date endDate;
 
-
+    @Column(name = "employee_addition_count",nullable = false)
+    private Integer EmployeeAdditionCount;
 }
