@@ -1,6 +1,12 @@
 package com.sriharyi.ems.service.implementation;
 
-import com.sriharyi.ems.authentication.dto.AuthenticateResponse;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.sriharyi.ems.authentication.dto.RegisterRequest;
 import com.sriharyi.ems.authentication.service.AuthenticationService;
 import com.sriharyi.ems.dto.EmployeeDto;
@@ -12,13 +18,8 @@ import com.sriharyi.ems.repository.EmployeeRepository;
 import com.sriharyi.ems.service.EmployeeService;
 import com.sriharyi.ems.service.JobHistoryService;
 import com.sriharyi.ems.service.ManagerHistoryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .build();
 
         Employee savedEmployee = employeeRepository.save(employee);
-        AuthenticateResponse response = authenticationService.register(request);
+        authenticationService.register(request);
 
         // if role is manager then add manager record in managerHistory table
         if (employee.getRole().equalsIgnoreCase("MANAGER")) {

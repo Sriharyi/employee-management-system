@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 @Entity(name = "position")
 public class Position {
 
+    
+
     @Id()
     @Column(name = "position_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

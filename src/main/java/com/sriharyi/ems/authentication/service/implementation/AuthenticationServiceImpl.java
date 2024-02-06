@@ -91,6 +91,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         saveUserToken(user, jwtToken);
         return AuthenticateResponse.builder()
                 .token(jwtToken)
+                .role(user.getRole().name())
                 .build();
 
     }

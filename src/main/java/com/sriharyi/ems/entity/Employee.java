@@ -58,8 +58,5 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<JobHistory> jobHistories;
 
-    // @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    // private List<ManagerHistory> ManagerHistories;
-
 
 }
